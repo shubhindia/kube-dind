@@ -1,5 +1,8 @@
 FROM docker:19.03
 
+
+# Install essentials 
+RUN apk add curl vim
 # https://github.com/docker/docker/blob/master/project/PACKAGERS.md#runtime-dependencies
 RUN set -eux; \
 	apk add --no-cache \
@@ -37,6 +40,11 @@ RUN set -eux; \
 COPY dockerd-entrypoint.sh /
 RUN chmod +x /dockerd-entrypoint.sh
 VOLUME /var/lib/docker
+
+## Kubernetes stuff
+ADD kubectx /usr/local/bin/
+ADD kubectl /usr/local/bin/
+
 EXPOSE 2375 2376
 
 ENTRYPOINT ["./dockerd-entrypoint.sh"]
