@@ -1,4 +1,4 @@
-FROM docker:19.03
+FROM docker:18.09.7
 
 
 # Install essentials 
