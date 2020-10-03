@@ -1,6 +1,12 @@
 #!/bin/sh
 set -eu
 
+_get_kubeconfig(){
+KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/gitlab-runner/configmaps/ | jq -j ".items[0].data.kubeconfig" > /kubeconfig
+}
+
+_get_kubeconfig
 _tls_ensure_private() {
 	local f="$1"; shift
 	[ -s "$f" ] || openssl genrsa -out "$f" 4096
