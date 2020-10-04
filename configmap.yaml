@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubeconfig
+  namespace: gitlab-runner
+  labels:
+    app: "gitlab-runner"
+data:
+  kubeconfig: |
+    <Your kubeconfig here>
