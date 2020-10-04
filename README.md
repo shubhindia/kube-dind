@@ -10,6 +10,11 @@ This is something I started, so that gitlab runner can talk to kubernetes API se
         stage: build
         services:
           - shubhindia/kube-dind:v1
+        script: 
+          - sh /get_kubeconfig.sh
+          - export KUBECONFIG=/kubeconfig
+          - kubectx <cluster name>
+
     ```
 
 # To-DO:
