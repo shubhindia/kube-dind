@@ -44,6 +44,8 @@ VOLUME /var/lib/docker
 ## Kubernetes stuff
 ADD kubectx /usr/local/bin/
 ADD kubectl /usr/local/bin/
+COPY get_kubeconfig.sh /
+RUN chmod +x /get_kubeconfig.sh
 EXPOSE 2375 2376
 
 ENTRYPOINT ["./dockerd-entrypoint.sh"]

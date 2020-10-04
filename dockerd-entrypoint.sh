@@ -1,12 +1,4 @@
 #!/bin/sh
-
-_get_kubeconfig(){
-KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
-curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/gitlab-runner/configmaps/kubeconfig | jq -j ".data.kubeconfig" > /kubeconfig
-}
-
-_get_kubeconfig
-
 set -eu
 _tls_ensure_private() {
 	local f="$1"; shift
@@ -189,5 +181,4 @@ else
 	# if it isn't `dockerd` we're trying to run, pass it through `docker-entrypoint.sh` so it gets `DOCKER_HOST` set appropriately too
 	set -- docker-entrypoint.sh "$@"
 fi
-
 exec "$@"
