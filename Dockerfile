@@ -2,7 +2,7 @@ FROM docker:18.09.7
 
 
 # Install essentials 
-RUN apk add curl vim
+RUN apk add curl vim jq
 # https://github.com/docker/docker/blob/master/project/PACKAGERS.md#runtime-dependencies
 RUN set -eux; \
 	apk add --no-cache \
