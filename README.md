@@ -9,7 +9,7 @@ This is something I started, so that gitlab runner can talk to kubernetes API se
           DOCKER_HOST: tcp://127.0.0.1:2375
         stage: build
         services:
-          - shubhindia/kube-dind:v1
+          - shubhindia/kube-dind:v2
         script: 
           - sh /get_kubeconfig.sh
           - export KUBECONFIG=/kubeconfig
