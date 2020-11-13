@@ -24,7 +24,28 @@ RUN set -eux; \
 		apk add --no-cache zfs; \
 	fi
 
-# TODO aufs-tools
+# OpenVPN client
+ENV GPG_THUMBPRINT ${GPG_THUMBPRINT:-0xbe07d9fd54809ab2c4b0ff5f63762cda67e2f359}
+
+# openconnect deps and gnu build system
+RUN apk add --no-cache tar coreutils gnupg gcc make autoconf automake \
+        libtool libxml2-dev linux-headers make musl-dev openssl-dev
+
+# download, gpg verify openconnect, build pre-prep
+RUN wget ftp://ftp.infradead.org/pub/openconnect/openconnect-8.10.tar.gz && \
+    #wget ftp://ftp.infradead.org/pub/openconnect/openconnect-8.10.tar.gz.asc && \
+    tar -xzpf openconnect-8.10.tar.gz
+
+RUN wget ftp://ftp.infradead.org/pub/vpnc-scripts/vpnc-scripts-20200930.tar.gz && \
+    tar -xzpf vpnc-scripts-20200930.tar.gz && \
+    mkdir /etc/vpnc && \
+    cp vpnc-scripts-20200930/vpnc-script /etc/vpnc/ 
+
+#Build and install openconnect VPN client
+RUN cd /openconnect-8.10/ && \
+    ./configure --prefix $(pwd)/build/usr/local --disable-nls && \
+    make -j 4 && \
+    make install
 
 # set up subuid/subgid so that "--userns-remap=default" works out-of-the-box
 RUN set -x \
@@ -47,6 +68,5 @@ ADD kubectl /usr/local/bin/
 COPY get_kubeconfig.sh /
 RUN chmod +x /get_kubeconfig.sh
 EXPOSE 2375 2376
-
 ENTRYPOINT ["./dockerd-entrypoint.sh"]
 CMD []
