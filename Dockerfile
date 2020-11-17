@@ -47,6 +47,12 @@ RUN cd /openconnect-8.10/ && \
     make -j 4 && \
     make install
 
+#Helm
+ENV HELM_VERSION="v3.4.0"
+RUN apk add --no-cache ca-certificates bash git openssh curl \
+    && wget -q https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
+    && chmod +x /usr/local/bin/helm
+
 # set up subuid/subgid so that "--userns-remap=default" works out-of-the-box
 RUN set -x \
 	&& addgroup -S dockremap \
