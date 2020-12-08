@@ -17,5 +17,4 @@ This is something I started, so that gitlab runner can talk to kubernetes API se
 
     ```
 
-# To-DO:
-1. Add logic to handle kubeconfig so that, we can export it and switch context as we need. I am already shipping neseccary tools to communicate with kubernetes API server.
+
